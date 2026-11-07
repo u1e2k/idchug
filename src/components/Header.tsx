@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { useProjectStore } from '../store/useProjectStore';
 import { exportProjectToFile, importProjectFromFile } from '../utils/fileIO';
 import { SAMPLE_PROJECTS } from '../utils/sampleProjects';
-import { Play, Pause, Square, Download, Upload, Activity, Flame, Plus, Minus, Sparkles, FolderOpen } from 'lucide-react';
+import { Play, Pause, Square, Download, Upload, Activity, Flame, Plus, Minus, Sparkles, FolderOpen, Volume2, VolumeX } from 'lucide-react';
 
 export const Header: React.FC = () => {
   const {
@@ -17,7 +17,9 @@ export const Header: React.FC = () => {
     setBpm,
     handleTapTempo,
     setProjectMeta,
-    loadProject
+    loadProject,
+    masterVolume,
+    setMasterVolume
   } = useProjectStore();
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -154,6 +156,35 @@ export const Header: React.FC = () => {
           <Activity className="w-3.5 h-3.5 text-red-400" />
           <span>TAP</span>
         </button>
+      </div>
+
+      {/* マスター音量 (全体ボリューム) */}
+      <div className="flex items-center gap-2 bg-[#191e2b] px-3 py-1.5 rounded-lg border border-[#2d3448]">
+        <button
+          onClick={() => setMasterVolume(masterVolume > 0 ? 0 : 0.85)}
+          className="text-gray-400 hover:text-white transition"
+          title={masterVolume > 0 ? "ミュート" : "ミュート解除"}
+        >
+          {masterVolume > 0 ? (
+            <Volume2 className="w-4 h-4 text-emerald-400" />
+          ) : (
+            <VolumeX className="w-4 h-4 text-red-400" />
+          )}
+        </button>
+        <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">MASTER</span>
+        <input
+          type="range"
+          min={0}
+          max={1}
+          step={0.01}
+          value={masterVolume}
+          onChange={(e) => setMasterVolume(Number(e.target.value))}
+          className="w-20 accent-emerald-500 cursor-pointer h-1.5 bg-[#0e1118] rounded"
+          title={`マスター音量: ${Math.round(masterVolume * 100)}%`}
+        />
+        <span className="text-[11px] font-mono font-bold text-emerald-400 w-8 text-right">
+          {Math.round(masterVolume * 100)}%
+        </span>
       </div>
 
       {/* サンプル曲 & ファイル操作 */}

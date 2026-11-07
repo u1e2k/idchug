@@ -322,7 +322,7 @@ export class LookaheadScheduler {
   }
 
   /**
-   * ボーカルの発音
+   * ボーカルの発音 (WORLD ボコーダー音声分析合成エンジン)
    */
   private scheduleVocal(
     track: TrackData,
@@ -333,10 +333,11 @@ export class LookaheadScheduler {
     outputNode: AudioNode
   ) {
     if (!track.notes) return;
+
     for (const note of track.notes) {
       if (note.bar === bar && Math.abs(note.offsetBeats - beatInBar) < 0.05) {
         const durationSeconds = note.durationBeats * 4 * secondsPer16th;
-        this.engine.vocalSynth.playNote(
+        this.engine.worldVocoder.playNote(
           note.pitch,
           time,
           durationSeconds,

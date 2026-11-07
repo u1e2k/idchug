@@ -175,7 +175,7 @@ export const HumRecordModal: React.FC = () => {
       if (targetTrackType === 'lead_gt') {
         audioEngine.guitarSynth.playNotes([n.pitch], noteTime, durationSec, 0.85, false, ctx.destination);
       } else if (targetTrackType === 'vocal') {
-        audioEngine.vocalSynth.playNote(n.pitch, noteTime, durationSec, 0.9, ctx.destination);
+        audioEngine.worldVocoder.playNote(n.pitch, noteTime, durationSec, 0.9, ctx.destination);
       } else {
         audioEngine.keysSynth.playNotes([n.pitch], noteTime, durationSec, 0.8, ctx.destination);
       }

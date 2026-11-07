@@ -23,6 +23,10 @@ interface ProjectState {
   // タップテンポ
   tapTimes: number[];
 
+  // マスター音量
+  masterVolume: number;
+  setMasterVolume: (vol: number) => void;
+
   // アクション
   initProject: (newProject?: IdChugProject) => void;
   play: () => Promise<void>;
@@ -80,6 +84,20 @@ export const useProjectStore = create<ProjectState>((set, get) => {
   // 初期プロジェクトをスケジューラへ即座にセット
   scheduler.setProject(DEFAULT_PROJECT);
 
+  // マスター音量の永続化読み込み
+  const savedMasterVol = (() => {
+    try {
+      const v = localStorage.getItem('idchug_master_volume');
+      if (v !== null) {
+        const parsed = parseFloat(v);
+        if (!isNaN(parsed) && parsed >= 0 && parsed <= 1) return parsed;
+      }
+    } catch {}
+    return 0.85;
+  })();
+
+  audioEngine.setMasterVolume(savedMasterVol);
+
   return {
     project: DEFAULT_PROJECT,
     isPlaying: false,
@@ -89,6 +107,15 @@ export const useProjectStore = create<ProjectState>((set, get) => {
     drumEditTarget: null,
     humRecordTarget: null,
     tapTimes: [],
+    masterVolume: savedMasterVol,
+
+    setMasterVolume: (vol: number) => {
+      audioEngine.setMasterVolume(vol);
+      try {
+        localStorage.setItem('idchug_master_volume', vol.toString());
+      } catch {}
+      set({ masterVolume: vol });
+    },
 
     initProject: (customProject) => {
       const proj = customProject || DEFAULT_PROJECT;

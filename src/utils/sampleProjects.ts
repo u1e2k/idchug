@@ -64,43 +64,14 @@ const DEMO_1_NOTES_VOCAL: NoteItem[] = [
 ];
 
 const DEMO_1_NOTES_LEAD: NoteItem[] = [
-  // イントロ・裏メロディのギターリフ (エモーショナルなオブリガート)
-  { id: 'l1_1', bar: 1, offsetBeats: 0.0, durationBeats: 1.0, pitch: 69, velocity: 110 }, // A4
-  { id: 'l1_2', bar: 1, offsetBeats: 1.0, durationBeats: 1.0, pitch: 76, velocity: 115 }, // E5
-  { id: 'l1_3', bar: 1, offsetBeats: 2.0, durationBeats: 0.5, pitch: 74, velocity: 105 }, // D5
-  { id: 'l1_4', bar: 1, offsetBeats: 2.5, durationBeats: 1.5, pitch: 72, velocity: 110 }, // C5
+  // ボーカルのフレーズの合間を縫うエモーショナルなギターオブリガート (合いの手)
+  // Bar 4の後半 (「鳴り止まない」の後)
+  { id: 'l4_1', bar: 4, offsetBeats: 2.5, durationBeats: 0.5, pitch: 76, velocity: 110 }, // E5
+  { id: 'l4_2', bar: 4, offsetBeats: 3.0, durationBeats: 1.0, pitch: 79, velocity: 115 }, // G5
 
-  { id: 'l2_1', bar: 2, offsetBeats: 0.0, durationBeats: 1.0, pitch: 65, velocity: 110 }, // F4
-  { id: 'l2_2', bar: 2, offsetBeats: 1.0, durationBeats: 1.0, pitch: 72, velocity: 115 }, // C5
-  { id: 'l2_3', bar: 2, offsetBeats: 2.0, durationBeats: 0.5, pitch: 71, velocity: 105 }, // B4
-  { id: 'l2_4', bar: 2, offsetBeats: 2.5, durationBeats: 1.5, pitch: 69, velocity: 110 }, // A4
-
-  { id: 'l3_1', bar: 3, offsetBeats: 0.0, durationBeats: 1.0, pitch: 67, velocity: 110 }, // G4
-  { id: 'l3_2', bar: 3, offsetBeats: 1.0, durationBeats: 1.0, pitch: 76, velocity: 115 }, // E5
-  { id: 'l3_3', bar: 3, offsetBeats: 2.0, durationBeats: 0.5, pitch: 74, velocity: 110 }, // D5
-  { id: 'l3_4', bar: 3, offsetBeats: 2.5, durationBeats: 1.5, pitch: 76, velocity: 115 }, // E5
-
-  { id: 'l4_1', bar: 4, offsetBeats: 0.0, durationBeats: 1.0, pitch: 79, velocity: 120 }, // G5
-  { id: 'l4_2', bar: 4, offsetBeats: 1.0, durationBeats: 1.0, pitch: 76, velocity: 115 }, // E5
-  { id: 'l4_3', bar: 4, offsetBeats: 2.0, durationBeats: 2.0, pitch: 74, velocity: 110 }, // D5
-
-  { id: 'l5_1', bar: 5, offsetBeats: 0.0, durationBeats: 1.0, pitch: 81, velocity: 125 }, // A5
-  { id: 'l5_2', bar: 5, offsetBeats: 1.0, durationBeats: 1.0, pitch: 79, velocity: 120 }, // G5
-  { id: 'l5_3', bar: 5, offsetBeats: 2.0, durationBeats: 2.0, pitch: 76, velocity: 115 }, // E5
-
-  { id: 'l6_1', bar: 6, offsetBeats: 0.0, durationBeats: 0.5, pitch: 77, velocity: 120 }, // F5
-  { id: 'l6_2', bar: 6, offsetBeats: 0.5, durationBeats: 0.5, pitch: 76, velocity: 115 }, // E5
-  { id: 'l6_3', bar: 6, offsetBeats: 1.0, durationBeats: 1.0, pitch: 74, velocity: 115 }, // D5
-  { id: 'l6_4', bar: 6, offsetBeats: 2.0, durationBeats: 2.0, pitch: 72, velocity: 110 }, // C5
-
-  { id: 'l7_1', bar: 7, offsetBeats: 0.0, durationBeats: 0.5, pitch: 72, velocity: 115 }, // C5
-  { id: 'l7_2', bar: 7, offsetBeats: 0.5, durationBeats: 0.5, pitch: 74, velocity: 115 }, // D5
-  { id: 'l7_3', bar: 7, offsetBeats: 1.0, durationBeats: 1.0, pitch: 76, velocity: 120 }, // E5
-  { id: 'l7_4', bar: 7, offsetBeats: 2.0, durationBeats: 2.0, pitch: 79, velocity: 125 }, // G5
-
-  { id: 'l8_1', bar: 8, offsetBeats: 0.0, durationBeats: 1.0, pitch: 81, velocity: 125 }, // A5
-  { id: 'l8_2', bar: 8, offsetBeats: 1.0, durationBeats: 1.0, pitch: 76, velocity: 120 }, // E5
-  { id: 'l8_3', bar: 8, offsetBeats: 2.0, durationBeats: 2.0, pitch: 69, velocity: 115 }  // A4
+  // Bar 8の後半 (ラストのキメ)
+  { id: 'l8_1', bar: 8, offsetBeats: 2.5, durationBeats: 0.5, pitch: 76, velocity: 110 }, // E5
+  { id: 'l8_2', bar: 8, offsetBeats: 3.0, durationBeats: 1.0, pitch: 81, velocity: 120 }  // A5
 ];
 
 export const DEMO_PROJECT_1: IdChugProject = {
@@ -125,8 +96,8 @@ export const DEMO_PROJECT_1: IdChugProject = {
     {
       id: 'trk_vocal',
       type: 'vocal',
-      name: 'Vocal (Miku Synth)',
-      volume: 0.9,
+      name: 'Vocal (WORLD Vocoder)',
+      volume: 1.0,
       pan: 0,
       isMuted: false,
       isSolo: false,
@@ -136,7 +107,7 @@ export const DEMO_PROJECT_1: IdChugProject = {
       id: 'trk_lead_gt',
       type: 'lead_gt',
       name: 'Lead Gt',
-      volume: 0.85,
+      volume: 0.40,
       pan: 0.25,
       isMuted: false,
       isSolo: false,
@@ -146,7 +117,7 @@ export const DEMO_PROJECT_1: IdChugProject = {
       id: 'trk_rhythm_gt',
       type: 'rhythm_gt',
       name: 'Rhythm Gt (Chug)',
-      volume: 0.95,
+      volume: 0.68,
       pan: -0.4,
       isMuted: false,
       isSolo: false,
@@ -156,7 +127,7 @@ export const DEMO_PROJECT_1: IdChugProject = {
       id: 'trk_bass',
       type: 'bass',
       name: 'Bass (Ba)',
-      volume: 0.95,
+      volume: 0.75,
       pan: 0,
       isMuted: false,
       isSolo: false
@@ -165,7 +136,7 @@ export const DEMO_PROJECT_1: IdChugProject = {
       id: 'trk_drums',
       type: 'drums',
       name: 'Drums (Dr)',
-      volume: 0.9,
+      volume: 0.78,
       pan: 0,
       isMuted: false,
       isSolo: false,
@@ -184,7 +155,7 @@ export const DEMO_PROJECT_1: IdChugProject = {
       id: 'trk_keys',
       type: 'keys',
       name: 'Keys / Synth',
-      volume: 0.7,
+      volume: 0.55,
       pan: 0.4,
       isMuted: false,
       isSolo: false,

@@ -3,6 +3,8 @@ import { GuitarSynth } from './synths/GuitarSynth';
 import { BassSynth } from './synths/BassSynth';
 import { DrumSampler } from './synths/DrumSampler';
 import { VocalSynth } from './synths/VocalSynth';
+import { VocalSampler } from './synths/VocalSampler';
+import { WorldVocoder } from './vocoder/WorldVocoder';
 import { KeysSynth } from './synths/KeysSynth';
 
 export interface TrackChannel {
@@ -30,12 +32,28 @@ export class AudioEngine {
   public bassSynth!: BassSynth;
   public drumSampler!: DrumSampler;
   public vocalSynth!: VocalSynth;
+  public vocalSampler!: VocalSampler;
+  public worldVocoder!: WorldVocoder;
   public keysSynth!: KeysSynth;
 
   private trackChannels: Map<string, TrackChannel> = new Map();
 
+  // マスターゲイン
+  private currentMasterVolume: number = 0.85;
+
   constructor() {
     // ユーザー操作時に初期化
+  }
+
+  public setMasterVolume(vol: number) {
+    this.currentMasterVolume = Math.max(0, Math.min(1.0, vol));
+    if (this.masterGain && this.ctx) {
+      this.masterGain.gain.setValueAtTime(this.currentMasterVolume, this.ctx.currentTime);
+    }
+  }
+
+  public getMasterVolume(): number {
+    return this.currentMasterVolume;
   }
 
   public async init(): Promise<AudioContext> {
@@ -53,7 +71,7 @@ export class AudioEngine {
 
       // マスターゲイン
       this.masterGain = this.ctx.createGain();
-      this.masterGain.gain.setValueAtTime(0.85, this.ctx.currentTime);
+      this.masterGain.gain.setValueAtTime(this.currentMasterVolume, this.ctx.currentTime);
 
       // スタジオリバーブ (Room/Plate 空間演出)
       this.convolver = this.ctx.createConvolver();
@@ -72,6 +90,8 @@ export class AudioEngine {
       this.bassSynth = new BassSynth(this.ctx);
       this.drumSampler = new DrumSampler(this.ctx);
       this.vocalSynth = new VocalSynth(this.ctx);
+      this.vocalSampler = new VocalSampler(this.ctx);
+      this.worldVocoder = new WorldVocoder(this.ctx);
       this.keysSynth = new KeysSynth(this.ctx);
     }
 
@@ -219,7 +239,7 @@ export class AudioEngine {
         this.bassSynth.playNote(pitch, now, 0.35, 0.9, this.masterGain);
         break;
       case 'vocal':
-        this.vocalSynth.playNote(pitch, now, 0.4, 0.8, this.masterGain);
+        this.worldVocoder.playNote(pitch, now, 0.4, 0.8, this.masterGain);
         break;
       case 'keys':
         this.keysSynth.playNotes([pitch, pitch + 4, pitch + 7], now, 0.5, 0.8, this.masterGain);
