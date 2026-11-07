@@ -3,6 +3,7 @@ import { IdChugProject, TrackData, DrumBlock, NoteItem, TrackType, RhythmGtStyle
 import { scheduler } from '../audio/scheduler';
 import { audioEngine } from '../audio/AudioEngine';
 import { createBlockFromPreset } from '../utils/drumPresets';
+import { DEMO_PROJECT_1 } from '../utils/sampleProjects';
 
 interface TapTempoState {
   tapTimes: number[];
@@ -63,95 +64,7 @@ interface ProjectState {
   loadProject: (project: IdChugProject) => void;
 }
 
-const DEFAULT_PROJECT: IdChugProject = {
-  version: '1.0.0',
-  meta: {
-    title: 'Rock Sketch #1',
-    bpm: 148,
-    key: 'Am',
-    timeSignature: [4, 4]
-  },
-  chords: [
-    { bar: 1, chord: 'Am' },
-    { bar: 2, chord: 'F' },
-    { bar: 3, chord: 'C' },
-    { bar: 4, chord: 'G' },
-    { bar: 5, chord: 'Am' },
-    { bar: 6, chord: 'F' },
-    { bar: 7, chord: 'C' },
-    { bar: 8, chord: 'Em' }
-  ],
-  tracks: [
-    {
-      id: 'trk_vocal',
-      type: 'vocal',
-      name: 'Vocal (Vo)',
-      volume: 0.9,
-      pan: 0,
-      isMuted: false,
-      isSolo: false,
-      notes: []
-    },
-    {
-      id: 'trk_lead_gt',
-      type: 'lead_gt',
-      name: 'Lead Gt',
-      volume: 0.85,
-      pan: 0.25,
-      isMuted: false,
-      isSolo: false,
-      notes: []
-    },
-    {
-      id: 'trk_rhythm_gt',
-      type: 'rhythm_gt',
-      name: 'Rhythm Gt (Chug)',
-      volume: 0.95,
-      pan: -0.4,
-      isMuted: false,
-      isSolo: false,
-      rhythmStyle: 'power_chug_8th'
-    },
-    {
-      id: 'trk_bass',
-      type: 'bass',
-      name: 'Bass (Ba)',
-      volume: 0.95,
-      pan: 0,
-      isMuted: false,
-      isSolo: false
-    },
-    {
-      id: 'trk_drums',
-      type: 'drums',
-      name: 'Drums (Dr)',
-      volume: 0.9,
-      pan: 0,
-      isMuted: false,
-      isSolo: false,
-      drumBlocks: [
-        createBlockFromPreset('8beat-basic', 1),
-        createBlockFromPreset('8beat-drive', 2),
-        createBlockFromPreset('8beat-drive', 3),
-        createBlockFromPreset('fill-01', 4),
-        createBlockFromPreset('8beat-drive', 5),
-        createBlockFromPreset('8beat-drive', 6),
-        createBlockFromPreset('8beat-drive', 7),
-        createBlockFromPreset('fill-crash-break', 8)
-      ]
-    },
-    {
-      id: 'trk_keys',
-      type: 'keys',
-      name: 'Keys / Synth',
-      volume: 0.7,
-      pan: 0.4,
-      isMuted: false,
-      isSolo: false,
-      notes: []
-    }
-  ]
-};
+const DEFAULT_PROJECT: IdChugProject = JSON.parse(JSON.stringify(DEMO_PROJECT_1));
 
 export const useProjectStore = create<ProjectState>((set, get) => {
   // スケジューラの状態変化コールバック設定

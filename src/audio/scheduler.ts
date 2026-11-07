@@ -336,7 +336,14 @@ export class LookaheadScheduler {
     for (const note of track.notes) {
       if (note.bar === bar && Math.abs(note.offsetBeats - beatInBar) < 0.05) {
         const durationSeconds = note.durationBeats * 4 * secondsPer16th;
-        this.engine.vocalSynth.playNote(note.pitch, time, durationSeconds, note.velocity / 127, outputNode);
+        this.engine.vocalSynth.playNote(
+          note.pitch,
+          time,
+          durationSeconds,
+          note.velocity / 127,
+          outputNode,
+          note.lyric
+        );
       }
     }
   }

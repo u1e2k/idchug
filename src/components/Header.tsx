@@ -1,7 +1,8 @@
 import React, { useRef } from 'react';
 import { useProjectStore } from '../store/useProjectStore';
 import { exportProjectToFile, importProjectFromFile } from '../utils/fileIO';
-import { Play, Pause, Square, Download, Upload, Activity, Flame, Plus, Minus } from 'lucide-react';
+import { SAMPLE_PROJECTS } from '../utils/sampleProjects';
+import { Play, Pause, Square, Download, Upload, Activity, Flame, Plus, Minus, Sparkles, FolderOpen } from 'lucide-react';
 
 export const Header: React.FC = () => {
   const {
@@ -40,6 +41,19 @@ export const Header: React.FC = () => {
     } finally {
       if (e.target) e.target.value = '';
     }
+  };
+
+  const handleSelectSample = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedId = e.target.value;
+    if (!selectedId) return;
+
+    const found = SAMPLE_PROJECTS.find((p) => p.id === selectedId);
+    if (found) {
+      if (isPlaying) stop();
+      loadProject(JSON.parse(JSON.stringify(found.project)));
+    }
+    // セレクトボックスの表示をリセット
+    e.target.value = '';
   };
 
   return (
@@ -142,8 +156,28 @@ export const Header: React.FC = () => {
         </button>
       </div>
 
-      {/* ファイル操作 (Export / Import) */}
+      {/* サンプル曲 & ファイル操作 */}
       <div className="flex items-center gap-2">
+        {/* サンプル曲プリセット選択 */}
+        <div className="relative flex items-center bg-[#191f2d] border border-amber-500/40 hover:border-amber-400 rounded px-2.5 py-1 transition group shadow-sm">
+          <Sparkles className="w-3.5 h-3.5 text-amber-400 mr-1.5 shrink-0 animate-pulse" />
+          <select
+            defaultValue=""
+            onChange={handleSelectSample}
+            className="bg-transparent text-xs font-bold text-amber-300 hover:text-amber-200 outline-none cursor-pointer pr-1"
+            title="用意されたサンプル曲を読み込みます"
+          >
+            <option value="" disabled className="bg-[#141824] text-gray-400">
+              サンプル曲を読み込む...
+            </option>
+            {SAMPLE_PROJECTS.map((sample) => (
+              <option key={sample.id} value={sample.id} className="bg-[#141824] text-gray-200">
+                {sample.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
         <input
           type="file"
           ref={fileInputRef}

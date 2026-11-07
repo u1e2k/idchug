@@ -321,15 +321,15 @@ export const TrackRow: React.FC<TrackRowProps> = ({ track, maxBar }) => {
                           return (
                             <div
                               key={note.id}
-                              className={`absolute h-3 rounded text-[8px] font-bold text-white flex items-center px-1 truncate shadow ${theme.accent}`}
+                              className={`absolute h-3.5 rounded text-[8px] font-bold text-white flex items-center justify-center px-1 truncate shadow border border-white/20 ${theme.accent}`}
                               style={{
                                 left: `${leftPct}%`,
                                 width: `${Math.max(widthPct, 6)}%`,
                                 top: `${Math.max(5, Math.min(75, topPct))}%`
                               }}
-                              title={`Pitch: ${note.pitch}, Duration: ${note.durationBeats} beats`}
+                              title={`[${note.lyric || '♪'}] Pitch: ${note.pitch}, Duration: ${note.durationBeats} beats`}
                             >
-                              ♪
+                              <span className="truncate leading-none">{track.type === 'vocal' ? (note.lyric || '♪') : '♪'}</span>
                             </div>
                           );
                         })}
