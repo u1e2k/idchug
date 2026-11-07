@@ -6,6 +6,7 @@ description: "idchug (アイドル×重低音Chug Web DAW) のWeb Audio API音�
 # idchug-engine スキル
 
 このスキルは、**idchug (Idol Chug Music Studio)** におけるWeb Audio API音響エンジン、UTAU音声合成パイプライン、およびコンポーネント設計を理解し、安全に拡張・メンテナンスするための開発支援ガイドです。
+過去のペアプログラミングで得られた教訓や設計方針は **[AI_LEARNINGS.md](file:///c:/Users/user/repos/idchug/AI_LEARNINGS.md)** に蓄積されています。
 
 ---
 
