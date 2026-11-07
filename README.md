@@ -35,7 +35,7 @@
 ## 🚀 起動・開発コマンド
 
 ```bash
-# 依存関係のインストール
+# 依存関係のインストール (postinstall で音声ボイスバンクも自動セットアップされます)
 npm install
 
 # 開発サーバー起動
@@ -43,6 +43,10 @@ npm run dev
 
 # プロダクションビルド
 npm run build
+
+# 手動でボイスバンクを再取得したい場合
+npm run setup:voices        # デモ曲用コアセット (39音素 / 約2.7MB)
+npm run setup:voices:full   # 全142音素フルセット (約9.8MB)
 ```
 
 ---

@@ -99,6 +99,11 @@ export class AudioEngine {
       await this.ctx.resume();
     }
 
+    // UTAU音声が未ロードの場合はバックグラウンドロード
+    if (this.vocalSampler && !this.vocalSampler.isUsingRealWav()) {
+      this.vocalSampler.loadDefaultTetoVoices().catch((e: unknown) => console.warn(e));
+    }
+
     return this.ctx;
   }
 

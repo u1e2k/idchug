@@ -55,6 +55,13 @@ export class LookaheadScheduler {
       t.drumBlocks?.forEach((b) => (maxBar = Math.max(maxBar, b.bar + b.lengthBars - 1)));
     });
     this.totalBars = Math.max(maxBar, 4);
+
+    // ボーカルトラックの歌詞に含まれる音素を一括プリロード
+    const vocalTrack = project.tracks.find((t) => t.type === 'vocal');
+    if (vocalTrack && vocalTrack.notes && this.engine.vocalSampler) {
+      const lyrics = vocalTrack.notes.map((n) => n.lyric);
+      this.engine.vocalSampler.preloadLyrics(lyrics).catch((e) => console.warn(e));
+    }
   }
 
   public setOnStateChange(cb: SchedulerStateCallback) {
@@ -322,7 +329,7 @@ export class LookaheadScheduler {
   }
 
   /**
-   * ボーカルの発音 (WORLD ボコーダー音声分析合成エンジン)
+   * ボーカルの発音 (実音素PCMサンプラー ＆ カスタムWAVボイス)
    */
   private scheduleVocal(
     track: TrackData,
@@ -337,7 +344,7 @@ export class LookaheadScheduler {
     for (const note of track.notes) {
       if (note.bar === bar && Math.abs(note.offsetBeats - beatInBar) < 0.05) {
         const durationSeconds = note.durationBeats * 4 * secondsPer16th;
-        this.engine.worldVocoder.playNote(
+        this.engine.vocalSampler.playNote(
           note.pitch,
           time,
           durationSeconds,

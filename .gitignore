@@ -66,3 +66,11 @@ Desktop.ini
 # Temporary files
 *.tmp
 *.temp
+temp_voices/
+
+# Voicebanks & Audio Assets (Generated/Downloaded via `npm run setup:voices`)
+public/voices/
+*.frq
+*.zip
+*.tar.gz
+*.rar
