@@ -164,6 +164,9 @@ export const useProjectStore = create<ProjectState>((set, get) => {
     });
   });
 
+  // 初期プロジェクトをスケジューラへ即座にセット
+  scheduler.setProject(DEFAULT_PROJECT);
+
   return {
     project: DEFAULT_PROJECT,
     isPlaying: false,

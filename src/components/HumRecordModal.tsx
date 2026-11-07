@@ -31,19 +31,20 @@ export const HumRecordModal: React.FC = () => {
   const animFrameRef = useRef<number | null>(null);
   const timerIntervalRef = useRef<number | null>(null);
 
-  useEffect(() => {
-    if (humRecordTarget) {
-      setTargetTrackType(humRecordTarget.trackType);
-      setTranscribedNotes([]);
-      setRecordingSeconds(0);
-      initMicPreview();
+  const cleanupAudio = () => {
+    if (animFrameRef.current !== null) {
+      cancelAnimationFrame(animFrameRef.current);
+      animFrameRef.current = null;
     }
-    return () => {
-      cleanupAudio();
-    };
-  }, [humRecordTarget]);
-
-  if (!humRecordTarget) return null;
+    if (timerIntervalRef.current !== null) {
+      clearInterval(timerIntervalRef.current);
+      timerIntervalRef.current = null;
+    }
+    if (mediaStreamRef.current) {
+      mediaStreamRef.current.getTracks().forEach((track) => track.stop());
+      mediaStreamRef.current = null;
+    }
+  };
 
   const initMicPreview = async () => {
     try {
@@ -80,20 +81,17 @@ export const HumRecordModal: React.FC = () => {
     }
   };
 
-  const cleanupAudio = () => {
-    if (animFrameRef.current !== null) {
-      cancelAnimationFrame(animFrameRef.current);
-      animFrameRef.current = null;
+  useEffect(() => {
+    if (humRecordTarget) {
+      setTargetTrackType(humRecordTarget.trackType);
+      setTranscribedNotes([]);
+      setRecordingSeconds(0);
+      initMicPreview();
     }
-    if (timerIntervalRef.current !== null) {
-      clearInterval(timerIntervalRef.current);
-      timerIntervalRef.current = null;
-    }
-    if (mediaStreamRef.current) {
-      mediaStreamRef.current.getTracks().forEach((track) => track.stop());
-      mediaStreamRef.current = null;
-    }
-  };
+    return () => {
+      cleanupAudio();
+    };
+  }, [humRecordTarget]);
 
   // 録音開始
   const handleStartRecording = () => {
@@ -192,6 +190,8 @@ export const HumRecordModal: React.FC = () => {
     addNotesToTrack(targetTrack.id, transcribedNotes);
     closeHumRecorder();
   };
+
+  if (!humRecordTarget) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 select-none">

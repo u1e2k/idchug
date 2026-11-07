@@ -31,6 +31,15 @@ export const DrumEditorModal: React.FC = () => {
 
   const previewTimerRef = useRef<number | null>(null);
 
+  const stopPreviewLoop = () => {
+    setIsPlayingPreview(false);
+    if (previewTimerRef.current !== null) {
+      clearTimeout(previewTimerRef.current);
+      previewTimerRef.current = null;
+    }
+    setPreviewStep(0);
+  };
+
   useEffect(() => {
     if (drumEditTarget) {
       setSteps(JSON.parse(JSON.stringify(drumEditTarget.block.steps)));
@@ -40,8 +49,6 @@ export const DrumEditorModal: React.FC = () => {
       stopPreviewLoop();
     };
   }, [drumEditTarget]);
-
-  if (!drumEditTarget) return null;
 
   const handleToggleCell = async (instrument: DrumInstrument, stepIdx: number) => {
     await audioEngine.init();
@@ -69,6 +76,7 @@ export const DrumEditorModal: React.FC = () => {
   };
 
   const handleSave = () => {
+    if (!drumEditTarget) return;
     const updated: DrumBlock = {
       ...drumEditTarget.block,
       presetName: blockName.trim() || 'Custom Beat',
@@ -102,14 +110,7 @@ export const DrumEditorModal: React.FC = () => {
     tick();
   };
 
-  const stopPreviewLoop = () => {
-    setIsPlayingPreview(false);
-    if (previewTimerRef.current !== null) {
-      clearTimeout(previewTimerRef.current);
-      previewTimerRef.current = null;
-    }
-    setPreviewStep(0);
-  };
+  if (!drumEditTarget) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 select-none">

@@ -9,12 +9,10 @@ import { importProjectFromFile } from './utils/fileIO';
 import { UploadCloud } from 'lucide-react';
 
 export const App: React.FC = () => {
-  const { initProject, play, pause, isPlaying, loadProject } = useProjectStore();
+  const loadProject = useProjectStore((s) => s.loadProject);
   const [isDragOverFile, setIsDragOverFile] = useState(false);
 
   useEffect(() => {
-    initProject();
-
     // グローバルキーボードショートカット (Space: 再生/停止)
     const handleKeyDown = (e: KeyboardEvent) => {
       // inputやtextarea、selectにフォーカスがある時は無視
@@ -28,17 +26,18 @@ export const App: React.FC = () => {
 
       if (e.code === 'Space') {
         e.preventDefault();
-        if (isPlaying) {
-          pause();
+        const state = useProjectStore.getState();
+        if (state.isPlaying) {
+          state.pause();
         } else {
-          play();
+          state.play();
         }
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isPlaying, play, pause, initProject]);
+  }, []);
 
   // 画面全体の .idchug ファイルドロップ処理
   const handleDragOver = (e: React.DragEvent) => {
@@ -106,4 +105,3 @@ export const App: React.FC = () => {
 };
 
 export default App;
-
